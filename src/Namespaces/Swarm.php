@@ -11,6 +11,7 @@ class Swarm extends IpfsNamespace
      */
     public function addrs(): array
     {
+        /* @phpstan-ignore-next-line */
         return $this->client->request('swarm/addrs')->send();
     }
 
@@ -19,6 +20,7 @@ class Swarm extends IpfsNamespace
      */
     public function addrsListen(): array
     {
+        /* @phpstan-ignore-next-line */
         return $this->client->request('swarm/addrs/listen')->send();
     }
 
@@ -27,6 +29,7 @@ class Swarm extends IpfsNamespace
      */
     public function addrsLocal(bool $id = false): array
     {
+        /* @phpstan-ignore-next-line */
         return $this->client->request('swarm/addrs/local', [
             'id' => $id,
         ])->send();
@@ -37,6 +40,7 @@ class Swarm extends IpfsNamespace
      */
     public function connect(string $address): array
     {
+        /* @phpstan-ignore-next-line */
         return $this->client->request('swarm/connect', [
             'arg' => $address,
         ])->send();
@@ -47,6 +51,7 @@ class Swarm extends IpfsNamespace
      */
     public function disconnect(string $address): array
     {
+        /* @phpstan-ignore-next-line */
         return $this->client->request('swarm/disconnect', [
             'arg' => $address,
         ])->send();
@@ -57,6 +62,7 @@ class Swarm extends IpfsNamespace
      */
     public function filters(): array
     {
+        /* @phpstan-ignore-next-line */
         return $this->client->request('swarm/filters')->send();
     }
 
@@ -65,6 +71,7 @@ class Swarm extends IpfsNamespace
      */
     public function filtersAdd(string $address): array
     {
+        /* @phpstan-ignore-next-line */
         return $this->client->request('swarm/filters/add', [
             'arg' => $address,
         ])->send();
@@ -75,6 +82,7 @@ class Swarm extends IpfsNamespace
      */
     public function filtersRm(string $address): array
     {
+        /* @phpstan-ignore-next-line */
         return $this->client->request('swarm/filters/rm', [
             'arg' => $address,
         ])->send();
@@ -85,6 +93,7 @@ class Swarm extends IpfsNamespace
      */
     public function peers(bool $verbose = false, bool $streams = false, bool $latency = false, bool $direction = false): array
     {
+        /* @phpstan-ignore-next-line */
         return $this->client->request('swarm/peers', [
             'verbose' => $verbose,
             'streams' => $streams,

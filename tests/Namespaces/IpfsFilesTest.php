@@ -110,8 +110,7 @@ class IpfsFilesTest extends IpfsTestCase
         $this->ipfs->files()->cp('/ipfs/'.$imageOnIpfs['Hash'], '/'.$imageOnIpfs['Name']);
 
         $resultRead = $this->ipfs->files()->read('/'.$imageOnIpfs['Name'], true);
-        $this->assertIsArray($resultRead);
-        $this->assertArrayHasKey('Content', $resultRead);
+        $this->assertTrue(is_resource($resultRead));
 
         $this->ipfs->files()->rm('/image.jpg', true);
     }

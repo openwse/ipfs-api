@@ -12,6 +12,7 @@ class Log extends IpfsNamespace
      */
     public function level(string $subsystem = 'all', string $level = 'fatal'): array
     {
+        /* @phpstan-ignore-next-line */
         return $this->client->request('log/level', [
             'args' => [
                 $subsystem,
@@ -25,6 +26,7 @@ class Log extends IpfsNamespace
      */
     public function ls(): array
     {
+        /* @phpstan-ignore-next-line */
         return $this->client->request('log/ls')->send();
     }
 }

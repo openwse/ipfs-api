@@ -11,6 +11,7 @@ class Stats extends IpfsNamespace
      */
     public function bitswap(bool $verbose = false, bool $human = false): array
     {
+        /* @phpstan-ignore-next-line */
         return $this->client->request('stats/bitswap', [
             'verbose' => $verbose,
             'human' => $human,
@@ -22,6 +23,7 @@ class Stats extends IpfsNamespace
      */
     public function bw(?string $peer = null, ?string $proto = null): array
     {
+        /* @phpstan-ignore-next-line */
         return $this->client->request('stats/bw', [
             'peer' => $peer,
             'proto' => $proto,
@@ -33,6 +35,7 @@ class Stats extends IpfsNamespace
      */
     public function dht(?string $dht = null): array
     {
+        /* @phpstan-ignore-next-line */
         return $this->client->request('stats/dht', [
             'arg' => $dht,
         ])->send();
@@ -43,6 +46,7 @@ class Stats extends IpfsNamespace
      */
     public function repo(bool $sizeOnly = false, bool $human = false): array
     {
+        /* @phpstan-ignore-next-line */
         return $this->client->request('stats/repo', [
             'size-only' => $sizeOnly,
             'human' => $human,

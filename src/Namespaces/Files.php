@@ -2,7 +2,9 @@
 
 namespace Ipfs\Namespaces;
 
+use GuzzleHttp\RequestOptions;
 use Ipfs\IpfsNamespace;
+use Psr\Http\Message\StreamInterface;
 
 class Files extends IpfsNamespace
 {
@@ -11,6 +13,7 @@ class Files extends IpfsNamespace
      */
     public function chcid(string $path = '/', ?int $cidVersion = null, ?string $hash = null): array
     {
+        /* @phpstan-ignore-next-line */
         return $this->client->request('files/chcid', [
             'arg' => $path,
             'cid-version' => $cidVersion,
@@ -23,6 +26,7 @@ class Files extends IpfsNamespace
      */
     public function cp(string $source, string $destination): array
     {
+        /* @phpstan-ignore-next-line */
         return $this->client->request('files/cp', [
             'args' => [
                 $source,
@@ -36,6 +40,7 @@ class Files extends IpfsNamespace
      */
     public function flush(string $path = '/'): array
     {
+        /* @phpstan-ignore-next-line */
         return $this->client->request('files/flush', [
             'arg' => $path,
         ])->send();
@@ -46,6 +51,7 @@ class Files extends IpfsNamespace
      */
     public function ls(string $path = '/', bool $long = false, bool $sort = false): array
     {
+        /* @phpstan-ignore-next-line */
         return $this->client->request('files/ls', [
             'arg' => $path,
             'long' => $long,
@@ -58,6 +64,7 @@ class Files extends IpfsNamespace
      */
     public function mkdir(string $path, bool $parents = true, ?int $cidVersion = null, ?string $hash = null): array
     {
+        /* @phpstan-ignore-next-line */
         return $this->client->request('files/mkdir', [
             'arg' => $path,
             'parents' => $parents,
@@ -71,6 +78,7 @@ class Files extends IpfsNamespace
      */
     public function mv(string $source, string $destination): array
     {
+        /* @phpstan-ignore-next-line */
         return $this->client->request('files/mv', [
             'args' => [
                 $source,
@@ -81,12 +89,14 @@ class Files extends IpfsNamespace
 
     /**
      * Read a file in a given MFS.
+     *
+     * @return array|resource|StreamInterface
      */
-    public function read(string $path, bool $stream = false): array
+    public function read(string $path, bool $stream = false)
     {
         return $this->client->request('files/read', [
             'arg' => $path,
-        ])->send(['stream' => $stream]);
+        ])->send([RequestOptions::STREAM => $stream]);
     }
 
     /**
@@ -94,6 +104,7 @@ class Files extends IpfsNamespace
      */
     public function rm(string $path, bool $force = false): array
     {
+        /* @phpstan-ignore-next-line */
         return $this->client->request('files/rm', [
             'arg' => $path,
             'force' => $force,
@@ -105,6 +116,7 @@ class Files extends IpfsNamespace
      */
     public function stat(string $path): array
     {
+        /* @phpstan-ignore-next-line */
         return $this->client->request('files/stat', [
             'arg' => $path,
         ])->send();

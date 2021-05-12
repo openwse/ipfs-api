@@ -74,6 +74,7 @@ class Ipfs
             $request->attach($file);
         }
 
+        /* @phpstan-ignore-next-line */
         return $request->send();
     }
 
@@ -97,6 +98,7 @@ class Ipfs
      */
     public function cat(string $path): array
     {
+        /* @phpstan-ignore-next-line */
         return $this->client->request('cat', [
             'arg' => $path,
         ])->send();
@@ -112,6 +114,7 @@ class Ipfs
      */
     public function commands(): array
     {
+        /* @phpstan-ignore-next-line */
         return $this->client->request('commands', [
             'flags' => true,
         ])->send();
@@ -142,6 +145,7 @@ class Ipfs
      */
     public function dns(string $domainName): array
     {
+        /* @phpstan-ignore-next-line */
         return $this->client->request('dns', [
             'arg' => $domainName,
         ])->send();
@@ -162,6 +166,7 @@ class Ipfs
      */
     public function get(string $path, bool $archive = false, bool $compress = false, int $compressLevel = 1): array
     {
+        /* @phpstan-ignore-next-line */
         return $this->client->request('get', [
             'arg' => $path,
             'archive' => $archive,
@@ -175,6 +180,7 @@ class Ipfs
      */
     public function id(): array
     {
+        /* @phpstan-ignore-next-line */
         return $this->client->request('id')->send();
     }
 
@@ -193,6 +199,7 @@ class Ipfs
      */
     public function ls(string $path, bool $headers = true, bool $resolveType = true, bool $size = true): array
     {
+        /* @phpstan-ignore-next-line */
         return $this->client->request('ls', [
             'arg' => $path,
             'headers' => $headers,
@@ -251,6 +258,7 @@ class Ipfs
      */
     public function version(): array
     {
+        /* @phpstan-ignore-next-line */
         return $this->client->request('version')->send();
     }
 }

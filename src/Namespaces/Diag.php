@@ -11,6 +11,7 @@ class Diag extends IpfsNamespace
      */
     public function cmds(?bool $verbose = false): array
     {
+        /* @phpstan-ignore-next-line */
         return $this->client->request('diag/cmds', [
             'verbose' => $verbose,
         ])->send();
@@ -21,6 +22,7 @@ class Diag extends IpfsNamespace
      */
     public function cmdsClear(): array
     {
+        /* @phpstan-ignore-next-line */
         return $this->client->request('diag/cmds/clear')->send();
     }
 
@@ -29,6 +31,7 @@ class Diag extends IpfsNamespace
      */
     public function cmdsSetTime(string $time): array
     {
+        /* @phpstan-ignore-next-line */
         return $this->client->request('diag/cmds/set-time', [
             'arg' => $time, // Valid time units are "ns", "us" (or "µs"), "ms", "s", "m", "h".
         ])->send();
@@ -39,6 +42,7 @@ class Diag extends IpfsNamespace
      */
     public function sys(): array
     {
+        /* @phpstan-ignore-next-line */
         return $this->client->request('diag/sys')->send();
     }
 }

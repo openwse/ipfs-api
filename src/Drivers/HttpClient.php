@@ -8,6 +8,7 @@ use GuzzleHttp\Psr7\Utils;
 use GuzzleHttp\RequestOptions;
 use Ipfs\Contracts\IpfsClient;
 use Ipfs\IpfsException;
+use Psr\Http\Message\StreamInterface;
 
 class HttpClient implements IpfsClient
 {
@@ -46,14 +47,20 @@ class HttpClient implements IpfsClient
 
     /**
      * @SuppressWarnings(PHPMD.StaticAccess)
+     *
+     * @return array|resource|StreamInterface|null
      */
-    public function send(array $options = []): array
+    public function send(array $options = [])
     {
         $response = $this->http->send($this->request, array_merge_recursive($this->requestOptions, $options));
         $this->requestOptions = [];
 
         if ($response->getStatusCode() !== 200) {
             throw IpfsException::makeFromResponse($response->getBody()->getContents());
+        }
+
+        if (in_array(RequestOptions::STREAM, array_keys($options)) && $options[RequestOptions::STREAM] === true) {
+            return $response->getBody()->detach();
         }
 
         $contents = $response->getBody()->getContents();
@@ -71,15 +78,17 @@ class HttpClient implements IpfsClient
     /**
      * @SuppressWarnings(PHPMD.ElseExpression)
      * @SuppressWarnings(PHPMD.StaticAccess)
+     *
+     * @param string|resource|null $content
      */
-    public function attach(string $path, ?string $name = null, ?string $content = null, ?string $mime = null): IpfsClient
+    public function attach(string $path, ?string $name = null, $content = null, ?string $mime = null): IpfsClient
     {
         $attached = [];
 
         if (! is_null($content)) {
             array_push($attached, [
                 'name' => 'file',
-                'contents' => Utils::streamFor($content),
+                'contents' => is_string($content) ? Utils::streamFor($content) : $content,
                 'headers' => [
                     'Content-Type' => $mime ?? 'application/octet-stream',
                 ],

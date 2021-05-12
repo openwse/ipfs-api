@@ -11,6 +11,7 @@ class Pin extends IpfsNamespace
      */
     public function add(string $paths, bool $progress = false): array
     {
+        /* @phpstan-ignore-next-line */
         return $this->client->request('pin/add', [
             'arg' => $paths,
             'progress' => $progress,
@@ -23,6 +24,7 @@ class Pin extends IpfsNamespace
      */
     public function ls(string $paths, string $type = 'all', bool $quiet = false): array
     {
+        /* @phpstan-ignore-next-line */
         return $this->client->request('pin/ls', [
             'arg' => $paths,
             'type' => $type,
@@ -35,6 +37,7 @@ class Pin extends IpfsNamespace
      */
     public function rm(string $paths): array
     {
+        /* @phpstan-ignore-next-line */
         return $this->client->request('pin/rm', [
             'arg' => $paths,
         ])->send();
@@ -45,6 +48,7 @@ class Pin extends IpfsNamespace
      */
     public function update(string $oldPath, string $newPath, bool $unpin = true): array
     {
+        /* @phpstan-ignore-next-line */
         return $this->client->request('pin/update', [
             'args' => [
                 $oldPath,
@@ -59,6 +63,7 @@ class Pin extends IpfsNamespace
      */
     public function verify(bool $verbose = true, bool $quiet = false): array
     {
+        /* @phpstan-ignore-next-line */
         return $this->client->request('pin/verify', [
             'verbose' => $verbose,
             'quiet' => $quiet,

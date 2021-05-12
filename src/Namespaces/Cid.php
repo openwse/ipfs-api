@@ -11,6 +11,7 @@ class Cid extends IpfsNamespace
      */
     public function base32(string $cidToConvert): array
     {
+        /* @phpstan-ignore-next-line */
         return $this->client->request('cid/base32', [
             'arg' => $cidToConvert,
         ])->send();
@@ -21,6 +22,7 @@ class Cid extends IpfsNamespace
      */
     public function bases(?bool $prefix = null, ?bool $numeric = null): array
     {
+        /* @phpstan-ignore-next-line */
         return $this->client->request('cid/bases', [
             'prefix' => $prefix,
             'numeric' => $numeric,
@@ -32,6 +34,7 @@ class Cid extends IpfsNamespace
      */
     public function codecs(?bool $numeric = null): array
     {
+        /* @phpstan-ignore-next-line */
         return $this->client->request('cid/codecs', [
             'numeric' => $numeric,
         ])->send();
@@ -42,6 +45,7 @@ class Cid extends IpfsNamespace
      */
     public function format(string $cid, ?string $format = null, ?string $version = null, ?string $codec = null, ?string $base = null): array
     {
+        /* @phpstan-ignore-next-line */
         return $this->client->request('cid/format', [
             'arg' => $cid,
             'f' => $format,
@@ -56,6 +60,7 @@ class Cid extends IpfsNamespace
      */
     public function hashes(?bool $numeric = null): array
     {
+        /* @phpstan-ignore-next-line */
         return $this->client->request('cid/hashes', [
             'numeric' => $numeric,
         ])->send();
