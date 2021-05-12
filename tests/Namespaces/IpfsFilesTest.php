@@ -102,6 +102,20 @@ class IpfsFilesTest extends IpfsTestCase
         $this->assertEquals($text, $resultRead['Content']);
     }
 
+    public function testItReadsStream(): void
+    {
+        $imageOnIpfs = $this->ipfs->add(__DIR__.'/../Fixtures/image.jpg');
+        $this->assertIsArray($imageOnIpfs);
+
+        $this->ipfs->files()->cp('/ipfs/'.$imageOnIpfs['Hash'], '/'.$imageOnIpfs['Name']);
+
+        $resultRead = $this->ipfs->files()->read('/'.$imageOnIpfs['Name'], true);
+        $this->assertIsArray($resultRead);
+        $this->assertArrayHasKey('Content', $resultRead);
+
+        $this->ipfs->files()->rm('/image.jpg', true);
+    }
+
     public function testItRm(): void
     {
         $text = 'This is my text for testing rm command.';

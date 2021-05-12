@@ -4,6 +4,7 @@ namespace Ipfs\Drivers;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Utils;
 use GuzzleHttp\RequestOptions;
 use Ipfs\Contracts\IpfsClient;
 use Ipfs\IpfsException;
@@ -69,37 +70,43 @@ class HttpClient implements IpfsClient
 
     /**
      * @SuppressWarnings(PHPMD.ElseExpression)
+     * @SuppressWarnings(PHPMD.StaticAccess)
      */
-    public function attach(string $fileOrDir, ?string $name = null): IpfsClient
+    public function attach(string $path, ?string $name = null, ?string $content = null, ?string $mime = null): IpfsClient
     {
         $attached = [];
 
-        if (is_file($fileOrDir)) {
-            $content = file_get_contents($fileOrDir);
-            if ($content === false) {
-                $error = error_get_last();
-                throw new IpfsException($error ? $error['message'] : 'Unexpected error while getting file content of '.$fileOrDir);
-            }
-
-            /** @var resource $mimeFlag */
-            $mimeFlag = finfo_open(FILEINFO_MIME_TYPE);
+        if (! is_null($content)) {
             array_push($attached, [
                 'name' => 'file',
-                'contents' => $content,
+                'contents' => Utils::streamFor($content),
                 'headers' => [
-                    'Content-Type' => finfo_file($mimeFlag, $fileOrDir),
+                    'Content-Type' => $mime ?? 'application/octet-stream',
                 ],
-                'filename' => $name ?? basename($fileOrDir),
+                'filename' => $name ?? $path,
             ]);
         } else {
-            array_push($attached, [
-                'name' => 'file',
-                'contents' => 'directory',
-                'headers' => [
-                    'Content-Type' => 'application/x-directory',
-                ],
-                'filename' => $fileOrDir,
-            ]);
+            if (is_file($path)) {
+                /** @var resource $mimeFlag */
+                $mimeFlag = finfo_open(FILEINFO_MIME_TYPE);
+                array_push($attached, [
+                    'name' => 'file',
+                    'contents' => Utils::tryFopen($path, 'r'),
+                    'headers' => [
+                        'Content-Type' => $mime ?? finfo_file($mimeFlag, $path),
+                    ],
+                    'filename' => $name ?? basename($path),
+                ]);
+            } else {
+                array_push($attached, [
+                    'name' => 'file',
+                    'contents' => 'directory',
+                    'headers' => [
+                        'Content-Type' => 'application/x-directory',
+                    ],
+                    'filename' => $path,
+                ]);
+            }
         }
 
         if (! empty($attached)) {

@@ -82,11 +82,11 @@ class Files extends IpfsNamespace
     /**
      * Read a file in a given MFS.
      */
-    public function read(string $path): array
+    public function read(string $path, bool $stream = false): array
     {
         return $this->client->request('files/read', [
             'arg' => $path,
-        ])->send();
+        ])->send(['stream' => $stream]);
     }
 
     /**

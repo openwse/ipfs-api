@@ -65,8 +65,8 @@ class Ipfs
 
         foreach ($files as $file) {
             if (is_array($file)) {
-                list($path, $name) = $file;
-                $request->attach($path, $name);
+                list($path, $name, $content, $mime) = $file;
+                $request->attach($path, $name, $content, $mime);
 
                 continue;
             }
