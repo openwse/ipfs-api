@@ -1,5 +1,16 @@
 ## A minimal implementation of IPFS API
 
+
+
+## Installation
+You can install the package via composer:
+
+``` bash
+composer require openwse/ipfs-api
+```
+
+
+## Usage
 ```php
 $client = new Ipfs\Ipfs(
     new Ipfs\Drivers\HttpClient('https://ipfs-host', 5001)
@@ -25,9 +36,41 @@ $client->files()->ls();
 
 // get the version
 $client->version();
+
+// publish
+$client->key()->gen('mykeyname');
+$client->name()->publish('/path/hash', '48h', 'mykeyname');
+
+
+// some other examples...
+$client->cat('/path/hash');
+
+$client->config()->set('key', 'value');
+
+$client->pin()->add('/path/hash');
+
+$client->pin()->verify();
+
+$client->stats()->bw();
+
+$client->key()->rm('mykeyname');
 ```
 
-#### TODOS:
+
+## Lint
+Run [PHPMD](https://phpmd.org/), [PHPStan](https://phpstan.org/), and [PHP-CS-Fixer](https://github.com/FriendsOfPhp/PHP-CS-Fixer)
+``` bash
+composer lint
+```
+
+
+## Testing
+``` bash
+composer tests
+```
+
+
+## TODOS:
 - [] Implement the following endpoints:
     - [] Bitswap 
     - [] Block 
@@ -35,10 +78,14 @@ $client->version();
     - [] Dag 
     - [] Dht 
     - [] Filestore 
-    - [] Key 
-    - [] Name 
     - [] Object 
     - [] P2P 
-    - [] Pubsub 
+    - [] Pubsub (with name/pubsub/{cancel,state,subs})
     - [] Repo 
     - [] Tar 
+
+
+## License
+
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+

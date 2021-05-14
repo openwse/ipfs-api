@@ -39,6 +39,12 @@ class IpfsTestCase extends TestCase
 
         $this->ipfs->files()->flush();
 
+        foreach (array_column($this->ipfs->key()->list()['Keys'], 'Name') as $key) {
+            if ($key !== 'self') {
+                $this->ipfs->key()->rm($key);
+            }
+        }
+
         parent::tearDown();
     }
 
