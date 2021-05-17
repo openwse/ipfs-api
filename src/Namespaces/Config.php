@@ -48,7 +48,7 @@ class Config extends IpfsNamespace
     {
         /* @phpstan-ignore-next-line */
         return $this->client->request('config', [
-            'args' => [
+            'arg' => [
                 $key,
                 $value,
             ],

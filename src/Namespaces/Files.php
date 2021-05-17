@@ -28,7 +28,7 @@ class Files extends IpfsNamespace
     {
         /* @phpstan-ignore-next-line */
         return $this->client->request('files/cp', [
-            'args' => [
+            'arg' => [
                 $source,
                 $destination,
             ],
@@ -80,7 +80,7 @@ class Files extends IpfsNamespace
     {
         /* @phpstan-ignore-next-line */
         return $this->client->request('files/mv', [
-            'args' => [
+            'arg' => [
                 $source,
                 $destination,
             ],

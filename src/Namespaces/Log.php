@@ -14,7 +14,7 @@ class Log extends IpfsNamespace
     {
         /* @phpstan-ignore-next-line */
         return $this->client->request('log/level', [
-            'args' => [
+            'arg' => [
                 $subsystem,
                 $level,
             ],

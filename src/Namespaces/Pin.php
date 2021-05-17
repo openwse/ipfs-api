@@ -2,10 +2,21 @@
 
 namespace Ipfs\Namespaces;
 
+use GuzzleHttp\RequestOptions;
 use Ipfs\IpfsNamespace;
 
 class Pin extends IpfsNamespace
 {
+    public function remote(string $service): PinRemote
+    {
+        return new PinRemote($this->client, $service);
+    }
+
+    public function service(): PinService
+    {
+        return new PinService($this->client);
+    }
+
     /**
      * Pin objects to local storage.
      */
@@ -15,7 +26,7 @@ class Pin extends IpfsNamespace
         return $this->client->request('pin/add', [
             'arg' => $paths,
             'progress' => $progress,
-        ])->send();
+        ])->send([RequestOptions::STREAM => $progress]);
     }
 
     /**
@@ -50,7 +61,7 @@ class Pin extends IpfsNamespace
     {
         /* @phpstan-ignore-next-line */
         return $this->client->request('pin/update', [
-            'args' => [
+            'arg' => [
                 $oldPath,
                 $newPath,
             ],

@@ -59,7 +59,7 @@ class Key extends IpfsNamespace
     {
         /* @phpstan-ignore-next-line */
         return $this->client->request('key/rename', [
-            'args' => [
+            'arg' => [
                 $oldName,
                 $newName,
             ],

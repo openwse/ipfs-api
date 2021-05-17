@@ -2,6 +2,7 @@
 
 namespace Ipfs\Tests;
 
+use Dotenv\Dotenv;
 use Ipfs\Drivers\HttpClient;
 use Ipfs\Ipfs;
 use PHPUnit\Framework\TestCase;
@@ -16,8 +17,11 @@ class IpfsTestCase extends TestCase
     {
         parent::setUp();
 
+        $dotenv = Dotenv::createImmutable(str_replace('tests', '', __DIR__));
+        $dotenv->load();
+
         $this->ipfs = new Ipfs(
-            new HttpClient('http://ipfs', 5001)
+            new HttpClient($_ENV['IPFS_HOST'], $_ENV['IPFS_PORT'])
         );
     }
 
@@ -43,6 +47,10 @@ class IpfsTestCase extends TestCase
             if ($key !== 'self') {
                 $this->ipfs->key()->rm($key);
             }
+        }
+
+        foreach ($this->ipfs->pin()->service()->ls()['RemoteServices'] as $service) {
+            $this->ipfs->pin()->service()->rm($service['Service']);
         }
 
         parent::tearDown();

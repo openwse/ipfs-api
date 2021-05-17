@@ -28,7 +28,7 @@ class HttpClient implements IpfsClient
         $this->port = $port;
         $this->http = new Client(array_merge_recursive([
             RequestOptions::HTTP_ERRORS => false,
-            RequestOptions::TIMEOUT => 3.0,
+            RequestOptions::TIMEOUT => 10.0,
             RequestOptions::HEADERS => [
                 'Accept' => 'application/json',
             ],
@@ -56,7 +56,7 @@ class HttpClient implements IpfsClient
         $this->requestOptions = [];
 
         if ($response->getStatusCode() !== 200) {
-            throw IpfsException::makeFromResponse($response->getBody()->getContents());
+            throw IpfsException::makeFromResponse($response);
         }
 
         if (in_array(RequestOptions::STREAM, array_keys($options)) && $options[RequestOptions::STREAM] === true) {
@@ -142,15 +142,23 @@ class HttpClient implements IpfsClient
     protected function buildQuery(string $path, array $data = []): string
     {
         if (! empty($data)) {
-            $params = array_map([$this, 'formatValue'], array_filter($data, function ($datum, $key) {
-                return $key !== 'args' && ! is_null($datum);
+            $arrays = [];
+            $params = array_map([$this, 'formatValue'], array_filter($data, function ($datum, $key) use (&$arrays) {
+                if (is_array($datum)) {
+                    array_push($arrays, $key);
+                }
+
+                return ! is_null($datum) && ! is_array($datum);
             }, ARRAY_FILTER_USE_BOTH));
 
-            $args = (isset($data['args'])) ? implode('&', array_map(function ($arg) {
-                return sprintf('arg=%1$s', $this->formatValue($arg));
-            }, $data['args'])) : '';
+            $query = '';
+            foreach ($arrays as $key) {
+                $values = (isset($data[$key])) ? implode('&', array_map(function ($arg) use ($key) {
+                    return sprintf('%1$s=%2$s', $key, $this->formatValue($arg));
+                }, $data[$key])) : '';
+                $query .= (! empty($values)) ? $values.'&' : '';
+            }
 
-            $query = (! empty($args)) ? $args.'&' : '';
             $query .= (! empty($params)) ? http_build_query($params) : '';
 
             if (! empty($query)) {

@@ -71,18 +71,14 @@ composer tests
 
 
 ## TODOS:
-- [] Implement the following endpoints:
-    - [] Bitswap 
-    - [] Block 
-    - [] Bootstrap 
-    - [] Dag 
-    - [] Dht 
-    - [] Filestore 
-    - [] Object 
-    - [] P2P 
-    - [] Pubsub (with name/pubsub/{cancel,state,subs})
-    - [] Repo 
-    - [] Tar 
+- Complete async/streams requests
+- Implement the following endpoints:
+    - P2P 
+    - Pubsub (with name/pubsub/{cancel,state,subs})
+- Missing tests:
+    - Block > put
+    - Filestore
+    - Dht
 
 
 ## License
