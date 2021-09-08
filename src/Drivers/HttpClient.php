@@ -26,7 +26,7 @@ class HttpClient implements IpfsClient
     {
         $this->host = $host;
         $this->port = $port;
-        $this->http = new Client(array_merge_recursive([
+        $this->http = new Client(array_merge([
             RequestOptions::HTTP_ERRORS => false,
             RequestOptions::TIMEOUT => 10.0,
             RequestOptions::HEADERS => [
