@@ -51,12 +51,12 @@ class Ipfs
      *
      * @param string|array $files
      */
-    public function add($files, bool $pin = false): array
+    public function add($files, bool $pin = false, $wrap = false): array
     {
         $request = $this->client->request('add', [
             'pin' => $pin,
             'progress' => false,
-            'wrap-with-directory' => false,
+            'wrap-with-directory' => $wrap,
         ]);
 
         if (is_string($files)) {
