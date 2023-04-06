@@ -17,17 +17,17 @@
     "homepage": "https://github.com/openwse/ipfs-api",
     "license": "MIT",
     "require": {
-        "php": "^7.4",
+        "php": "^8.0",
         "ext-json": "*",
         "guzzlehttp/guzzle": "^7.3.0"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^2.18",
-        "php-parallel-lint/php-parallel-lint": "^1.3",
-        "phpmd/phpmd": "^2.9",
-        "phpstan/phpstan": "^0.12.83",
-        "phpunit/phpunit": "^9.5.4",
-        "vlucas/phpdotenv": "^5.3"
+        "friendsofphp/php-cs-fixer": "*",
+        "php-parallel-lint/php-parallel-lint": "*",
+        "phpmd/phpmd": "*",
+        "phpstan/phpstan": "*",
+        "phpunit/phpunit": "*",
+        "vlucas/phpdotenv": "*"
     },
     "config": {
         "optimize-autoloader": true,
@@ -49,7 +49,8 @@
     "prefer-stable": true,
     "scripts": {
         "tests": [
-            "@php ./vendor/bin/phpunit --verbose"
+	    "Composer\\Config::disableProcessTimeout",
+            "@php ./vendor/bin/phpunit --verbose  --stop-on-failure"
         ],
         "lint": [
             "@php ./vendor/bin/php-cs-fixer fix --dry-run",
